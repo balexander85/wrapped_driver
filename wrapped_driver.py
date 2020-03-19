@@ -12,33 +12,48 @@ from selenium.webdriver.support.wait import WebDriverWait
 from _logger import LOGGER
 
 
-USER_AGENT = "user-agent=Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko"
+USER_AGENT = (
+    "user-agent=Mozilla/5.0 "
+    "(Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36"
+)
 
-headless_chrome_options = webdriver.ChromeOptions()
-headless_chrome_options.add_argument("--window-size=1920,1080")
-headless_chrome_options.add_argument("--disable-features=VizDisplayCompositor")
-headless_chrome_options.add_argument("--start-maximized")
-headless_chrome_options.add_argument("--disable-dev-shm-usage")
-headless_chrome_options.add_argument("--disable-gpu")
-headless_chrome_options.add_argument(USER_AGENT)
+MOBILE_USER_AGENT = (
+    "user-agent=Mozilla/5.0 "
+    "(iPhone; CPU iPhone OS 13_2_3 like Mac OS X) "
+    "AppleWebKit/605.1.15 (KHTML, like Gecko) "
+    "Version/13.0.3 Mobile/15E148 Safari/604.1"
+)
 
 chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument(USER_AGENT)
+chrome_options.add_argument("--disable-features=VizDisplayCompositor")
+chrome_options.add_argument("--start-maximized")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--disable-gpu")
 
 
 class WrappedDriver:
     """Class used to wrap selenium webdriver"""
 
-    def __init__(self, chrome_driver_path: str, browser: str = "headless"):
+    def __init__(
+        self, chrome_driver_path: str, browser: str = "chrome", headless: bool = False
+    ):
+        if headless:
+            chrome_options.add_argument("--headless")
+
         if browser == "chrome":
+            chrome_options.add_argument(USER_AGENT)
+            chrome_options.add_argument("--window-size=1920,1080")
             self.driver = webdriver.Chrome(
                 executable_path=chrome_driver_path, options=chrome_options
             )
-        elif browser == "headless":
-            headless_chrome_options.add_argument("--headless")
+        elif browser == "mobile":
+            chrome_options.add_argument(MOBILE_USER_AGENT)
             self.driver = webdriver.Chrome(
-                executable_path=chrome_driver_path, options=headless_chrome_options
+                executable_path=chrome_driver_path, options=chrome_options
             )
+        else:
+            LOGGER.error(f"Invalid value for browser: {browser}")
 
     def __enter__(self):
         return self
