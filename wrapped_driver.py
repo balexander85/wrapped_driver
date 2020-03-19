@@ -36,13 +36,17 @@ class WrappedDriver:
     """Class used to wrap selenium webdriver"""
 
     def __init__(
-        self, chrome_driver_path: str, browser: str = "chrome", headless: bool = False
+        self,
+        chrome_driver_path: str,
+        browser: str = "chrome",
+        headless: bool = False,
+        user_agent: str = USER_AGENT,
     ):
         if headless:
             chrome_options.add_argument("--headless")
 
         if browser == "chrome":
-            chrome_options.add_argument(USER_AGENT)
+            chrome_options.add_argument(user_agent)
             chrome_options.add_argument("--window-size=1920,1080")
             self.driver = webdriver.Chrome(
                 executable_path=chrome_driver_path, options=chrome_options
