@@ -90,6 +90,13 @@ class WrappedDriver:
     def get_element_by_css(self, locator: str) -> WebElement:
         return self.driver.find_element_by_css_selector(css_selector=locator)
 
+    def highlight_element(self, locator: str, color: str = "red"):
+        """Highlight element by adding color to borders of element"""
+        self.driver.execute_script(
+            f"arguments[0].style.border='3px solid {color}'",
+            self.get_element_by_css(locator=locator),
+        )
+
     def move_mouse_by_offset(self, x, y):
         """Helper method to move cursor off screen"""
         LOGGER.debug(f"Moving cursor off screen")
