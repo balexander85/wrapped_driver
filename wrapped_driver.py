@@ -84,6 +84,12 @@ class WrappedDriver:
         element = self.get_element_by_css(locator)
         return element.is_displayed()
 
+    def delete_element(self, locator: str):
+        """Delete element with js .remove method"""
+        self.driver.execute_script(
+            "arguments[0].remove();", self.get_element_by_css(locator=locator)
+        )
+
     def get_element_by_id(self, element_id: str) -> WebElement:
         return self.driver.find_element_by_id(element_id)
 
