@@ -2,6 +2,8 @@
 
 Module for all webdriver classes and methods
 """
+from typing import List
+
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
@@ -93,8 +95,14 @@ class WrappedDriver:
     def get_element_by_id(self, element_id: str) -> WebElement:
         return self.driver.find_element_by_id(element_id)
 
+    def get_elements_by_id(self, element_id: str) -> List[WebElement]:
+        return self.driver.find_elements_by_id(element_id)
+
     def get_element_by_css(self, locator: str) -> WebElement:
         return self.driver.find_element_by_css_selector(css_selector=locator)
+
+    def get_elements_by_css(self, locator: str) -> List[WebElement]:
+        return self.driver.find_elements_by_css_selector(css_selector=locator)
 
     def highlight_element(self, locator: str, color: str = "red"):
         """Highlight element by adding color to borders of element"""
