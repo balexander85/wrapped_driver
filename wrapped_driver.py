@@ -81,16 +81,17 @@ class WrappedDriver:
         LOGGER.debug("Closing browser and shutting down ChromeDriver instance")
         self.driver.quit()
 
-    def element_visible(self, locator: str) -> bool:
+    def element_visible(self, locator: str = None, element: WebElement = None) -> bool:
         """Return bool for element visibility"""
-        element = self.get_element_by_css(locator)
+        if not element:
+            element = self.get_element_by_css(locator)
         return element.is_displayed()
 
-    def delete_element(self, locator: str):
+    def delete_element(self, locator: str = None, element: WebElement = None):
         """Delete element with js .remove method"""
-        self.driver.execute_script(
-            "arguments[0].remove();", self.get_element_by_css(locator=locator)
-        )
+        if not element:
+            element = self.get_element_by_css(locator=locator)
+        self.driver.execute_script("arguments[0].remove();", element)
 
     def get_element_by_id(self, element_id: str) -> WebElement:
         return self.driver.find_element_by_id(element_id)
@@ -104,11 +105,14 @@ class WrappedDriver:
     def get_elements_by_css(self, locator: str) -> List[WebElement]:
         return self.driver.find_elements_by_css_selector(css_selector=locator)
 
-    def highlight_element(self, locator: str, color: str = "red"):
+    def highlight_element(
+        self, locator: str = None, element: WebElement = None, color: str = "red"
+    ):
         """Highlight element by adding color to borders of element"""
+        if not element:
+            element = self.get_element_by_css(locator=locator)
         self.driver.execute_script(
-            f"arguments[0].style.border='3px solid {color}'",
-            self.get_element_by_css(locator=locator),
+            f"arguments[0].style.border='3px solid {color}'", element
         )
 
     def move_mouse_by_offset(self, x, y):
