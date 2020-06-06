@@ -125,6 +125,10 @@ class WrappedDriver:
         LOGGER.debug(f"Scrolling to WebElement: {element}")
         ActionChains(self.driver).move_to_element(element).perform()
 
+    @property
+    def title(self) -> str:
+        return self.driver.title
+
     def wait_for_element_to_be_present_by_id(
         self, locator: str, timeout: int = 60, poll_frequency: int = 3
     ) -> bool:
