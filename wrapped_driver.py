@@ -46,6 +46,8 @@ class WrappedDriver:
     ):
         if headless:
             chrome_options.add_argument("--headless")
+            # needed for docker
+            chrome_options.add_argument("--no-sandbox")
 
         if browser == "chrome":
             chrome_options.add_argument(user_agent)
