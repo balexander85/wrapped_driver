@@ -2,6 +2,8 @@
 
 Module for all webdriver classes and methods
 """
+import logging
+from sys import stdout
 from typing import List
 
 from selenium import webdriver
@@ -11,7 +13,13 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-from _logger import LOGGER
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s: %(message)s",
+    stream=stdout,
+)
+LOGGER = logging.getLogger(__name__)
 
 
 USER_AGENT = (
