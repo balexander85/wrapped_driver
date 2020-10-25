@@ -1,7 +1,7 @@
 from wrapped_driver import WrappedDriver
 
 
-CHROME_DRIVER_PATH = ""
+CHROME_DRIVER_PATH = "/usr/bin/chromedriver"
 
 
 def test_basic_wrapped_driver():
