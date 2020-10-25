@@ -1,8 +1,8 @@
 version: '3.7'
 services:
-  app:
-    build: app
+  wrapped_driver:
+    build: wrapped_driver
     image: balexander85/wrapped_webdriver
     volumes:
-      - ./app/src:/usr/src
+      - ./wrapped_driver/src:/usr/src
 
