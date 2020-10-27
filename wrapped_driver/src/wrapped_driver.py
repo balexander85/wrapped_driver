@@ -136,6 +136,10 @@ class WrappedDriver:
         ActionChains(self.driver).move_to_element(element).perform()
 
     @property
+    def current_url(self) -> str:
+        return self.driver.current_url
+
+    @property
     def title(self) -> str:
         return self.driver.title
 
