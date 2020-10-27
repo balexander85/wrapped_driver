@@ -1,8 +1,9 @@
 FROM python:3.7-slim-buster
 LABEL maintainer="Brian A <brian@dadgumsalsa.com>"
 WORKDIR /usr/src
-COPY src \
-  requirements.txt ./
+COPY tests \
+  wrapped_driver/src \
+  wrapped_driver/requirements.txt ./
 RUN apt-get update \
  && apt-get upgrade -y \
  # Install tools for building
@@ -17,5 +18,5 @@ RUN apt-get update \
             $toolDeps \
  && rm -rf /var/lib/apt/lists/* \
            /tmp/*
-CMD ["python", "-m", "pytest", "-vv", "tests/test_wrapped_driver.py"]
+CMD ["python", "-m", "pytest", "-vv", "tests/"]
 
