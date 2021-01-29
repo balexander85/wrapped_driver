@@ -7,10 +7,13 @@ CHROME_DRIVER_PATH = "/usr/bin/chromedriver"
 
 
 class TestClass:
+    """Test class for basic webdriver methods"""
+
     @pytest.fixture(autouse=True)
     def setup(self):
         self.driver = WrappedDriver(
-            chrome_driver_path=CHROME_DRIVER_PATH, headless=True,
+            chrome_driver_path=CHROME_DRIVER_PATH,
+            headless=True,
         )
         self.driver.open("http://www.dadgumsalsa.com")
 
@@ -21,4 +24,3 @@ class TestClass:
     def test_page_title(self):
         """Assert title property value"""
         assert self.driver.title == "DGS | Home"
-

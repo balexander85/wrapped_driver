@@ -14,4 +14,3 @@ def test_no_chromedriver_path():
     """Assert error is raised if no chromedriver path is used"""
     with pytest.raises(TypeError):
         WrappedDriver(headless=True)
-

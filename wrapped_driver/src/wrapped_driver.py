@@ -77,19 +77,14 @@ class WrappedDriver:
     def __exit__(self, *args):
         self.quit_driver()
 
-    def open(self, url: str):
-        LOGGER.debug(f"self.open(): self.driver.get({url})")
-        self.driver.get(url)
-
     def close(self):
         """Closes the current window."""
         LOGGER.debug("Closing window.")
         self.driver.close()
 
-    def quit_driver(self):
-        """Closes the browser and shuts down the ChromeDriver executable."""
-        LOGGER.debug("Closing browser and shutting down ChromeDriver instance")
-        self.driver.quit()
+    @property
+    def current_url(self) -> str:
+        return self.driver.current_url
 
     def element_visible(self, locator: str = None, element: WebElement = None) -> bool:
         """Return bool for element visibility"""
@@ -130,14 +125,24 @@ class WrappedDriver:
         LOGGER.debug(f"Moving cursor off screen")
         ActionChains(self.driver).move_by_offset(xoffset=x, yoffset=y).perform()
 
+    def open(self, url: str):
+        LOGGER.debug(f"self.open(): self.driver.get({url})")
+        self.driver.get(url)
+
+    def quit_driver(self):
+        """Closes the browser and shuts down the ChromeDriver executable."""
+        LOGGER.debug("Closing browser and shutting down ChromeDriver instance")
+        self.driver.quit()
+
     def scroll_to_element(self, element: WebElement):
         """Helper method to scroll down to element"""
         LOGGER.debug(f"Scrolling to WebElement: {element}")
         ActionChains(self.driver).move_to_element(element).perform()
 
     @property
-    def current_url(self) -> str:
-        return self.driver.current_url
+    def switch_to(self):
+        """Wrapped method of selenium webdriver switch_to"""
+        return self.driver.switch_to
 
     @property
     def title(self) -> str:
@@ -148,7 +153,10 @@ class WrappedDriver:
     ) -> bool:
         """Wait for element to be present using CSS locator"""
         return self.wait_for_element_to_be_present(
-            by=By.ID, locator=locator, timeout=timeout, poll_frequency=poll_frequency,
+            by=By.ID,
+            locator=locator,
+            timeout=timeout,
+            poll_frequency=poll_frequency,
         )
 
     def wait_for_element_to_be_present_by_css(
