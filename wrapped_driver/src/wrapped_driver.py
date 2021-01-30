@@ -159,6 +159,17 @@ class WrappedDriver:
             poll_frequency=poll_frequency,
         )
 
+    def wait_for_element_to_be_visible_by_id(
+            self, locator: str, timeout: int = 60, poll_frequency: int = 3
+    ) -> bool:
+        """Wait for element to be present using CSS locator"""
+        return self.wait_for_element_to_be_visible(
+            by=By.ID,
+            locator=locator,
+            timeout=timeout,
+            poll_frequency=poll_frequency,
+        )
+
     def wait_for_element_to_be_present_by_css(
         self, locator: str, timeout: int = 60, poll_frequency: int = 3
     ) -> bool:
