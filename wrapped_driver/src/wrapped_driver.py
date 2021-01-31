@@ -15,7 +15,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format="%(asctime)s - %(levelname)s: %(message)s",
     stream=stdout,
 )
