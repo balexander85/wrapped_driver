@@ -134,6 +134,14 @@ class WrappedDriver:
         LOGGER.debug("Closing browser and shutting down ChromeDriver instance")
         self.driver.quit()
 
+    def screenshot_element(
+        self, locator: str = None, element: WebElement = None, file_name: str = ""
+    ):
+        """Screenshot element with element.screenshot()"""
+        if not element:
+            element = self.get_element_by_css(locator=locator)
+        element.screenshot(filename=file_name)
+
     def scroll_to_element(self, element: WebElement):
         """Helper method to scroll down to element"""
         LOGGER.debug(f"Scrolling to WebElement: {element}")
@@ -160,7 +168,7 @@ class WrappedDriver:
         )
 
     def wait_for_element_to_be_visible_by_id(
-            self, locator: str, timeout: int = 60, poll_frequency: int = 3
+        self, locator: str, timeout: int = 60, poll_frequency: int = 3
     ) -> bool:
         """Wait for element to be present using CSS locator"""
         return self.wait_for_element_to_be_visible(
