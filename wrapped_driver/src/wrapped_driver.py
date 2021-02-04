@@ -7,6 +7,7 @@ from sys import stdout
 from typing import List
 
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -91,6 +92,16 @@ class WrappedDriver:
         if not element:
             element = self.get_element_by_css(locator)
         return element.is_displayed()
+
+    def element_exist(self, locator: str = None, element: WebElement = None) -> bool:
+        """Return bool for element visibility"""
+        try:
+            if not element:
+                element = self.get_element_by_css(locator)
+            return element.is_displayed()
+        except NoSuchElementException as e:
+            LOGGER.debug(e)
+        return False
 
     def delete_element(self, locator: str = None, element: WebElement = None):
         """Delete element with js .remove method"""
