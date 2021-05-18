@@ -15,9 +15,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 
+LOGGER_FORMAT = "%(asctime)s - %(levelname)s: %(message)s"
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s: %(message)s",
+    format=LOGGER_FORMAT,
     stream=stdout,
 )
 LOGGER = logging.getLogger(__name__)
@@ -36,11 +37,23 @@ MOBILE_USER_AGENT = (
     "Version/13.0.3 Mobile/15E148 Safari/604.1"
 )
 
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument("--disable-features=VizDisplayCompositor")
-chrome_options.add_argument("--start-maximized")
-chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--disable-gpu")
+
+def get_chrome_options() -> webdriver.ChromeOptions:
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--disable-features=VizDisplayCompositor")
+    chrome_options.add_argument("--start-maximized")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
+    return chrome_options
+
+
+def get_firefox_options() -> webdriver.FirefoxOptions:
+    firefox_options = webdriver.FirefoxOptions()
+    firefox_options.add_argument("--disable-features=VizDisplayCompositor")
+    firefox_options.add_argument("--start-maximized")
+    firefox_options.add_argument("--disable-dev-shm-usage")
+    firefox_options.add_argument("--disable-gpu")
+    return firefox_options
 
 
 class WrappedDriver:
@@ -48,26 +61,32 @@ class WrappedDriver:
 
     def __init__(
         self,
-        chrome_driver_path: str,
+        executable_path: str,
         browser: str = "chrome",
         headless: bool = False,
+        mobile: bool = False,
         user_agent: str = USER_AGENT,
     ):
+        self.options = (
+            get_firefox_options() if browser == "firefox" else get_chrome_options()
+        )
         if headless:
-            chrome_options.add_argument("--headless")
-            # needed for docker
-            chrome_options.add_argument("--no-sandbox")
+            self.options.add_argument("--headless")
+            self.options.add_argument("--no-sandbox")
+
+        if mobile:
+            self.options.add_argument(MOBILE_USER_AGENT)
+        else:
+            self.options.add_argument(user_agent)
+            self.options.add_argument("--window-size=1920,1080")
 
         if browser == "chrome":
-            chrome_options.add_argument(user_agent)
-            chrome_options.add_argument("--window-size=1920,1080")
             self.driver = webdriver.Chrome(
-                executable_path=chrome_driver_path, options=chrome_options
+                executable_path=executable_path, options=self.options
             )
-        elif browser == "mobile":
-            chrome_options.add_argument(MOBILE_USER_AGENT)
-            self.driver = webdriver.Chrome(
-                executable_path=chrome_driver_path, options=chrome_options
+        elif browser == "firefox":
+            self.driver = webdriver.Firefox(
+                executable_path=executable_path, options=self.options
             )
         else:
             LOGGER.error(f"Invalid value for browser: {browser}")
@@ -109,6 +128,10 @@ class WrappedDriver:
             element = self.get_element_by_css(locator=locator)
         self.driver.execute_script("arguments[0].remove();", element)
 
+    def get_console_logs(self) -> List[dict]:
+        """Get console logs from the browser, I think this only available in Chrome"""
+        return self.driver.get_log("browser")
+
     def get_element_by_id(self, element_id: str) -> WebElement:
         return self.driver.find_element_by_id(element_id)
 
@@ -120,6 +143,9 @@ class WrappedDriver:
 
     def get_elements_by_css(self, locator: str) -> List[WebElement]:
         return self.driver.find_elements_by_css_selector(css_selector=locator)
+
+    def get_element_by_text(self, text: str) -> WebElement:
+        return self.driver.find_element_by_xpath(xpath=f"//*[text()='{text}']")
 
     def highlight_element(
         self, locator: str = None, element: WebElement = None, color: str = "red"
@@ -145,6 +171,10 @@ class WrappedDriver:
         LOGGER.debug("Closing browser and shutting down ChromeDriver instance")
         self.driver.quit()
 
+    def refresh(self):
+        """Refresh page with driver.refresh()"""
+        self.driver.refresh()
+
     def screenshot_element(
         self, locator: str = None, element: WebElement = None, file_name: str = ""
     ):
@@ -167,27 +197,14 @@ class WrappedDriver:
     def title(self) -> str:
         return self.driver.title
 
-    def wait_for_element_to_be_present_by_id(
-        self, locator: str, timeout: int = 60, poll_frequency: int = 3
+    def wait_for_element_to_be_present(
+        self, by: By, locator: str, timeout: int = 60, poll_frequency: int = 3
     ) -> bool:
-        """Wait for element to be present using CSS locator"""
-        return self.wait_for_element_to_be_present(
-            by=By.ID,
-            locator=locator,
-            timeout=timeout,
-            poll_frequency=poll_frequency,
-        )
-
-    def wait_for_element_to_be_visible_by_id(
-        self, locator: str, timeout: int = 60, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element to be present using CSS locator"""
-        return self.wait_for_element_to_be_visible(
-            by=By.ID,
-            locator=locator,
-            timeout=timeout,
-            poll_frequency=poll_frequency,
-        )
+        """Wait for element to be present"""
+        LOGGER.debug(msg=f"Waiting for locator to be present: {locator}")
+        return WebDriverWait(
+            driver=self.driver, timeout=timeout, poll_frequency=poll_frequency
+        ).until(EC.presence_of_element_located((by, locator)))
 
     def wait_for_element_to_be_present_by_css(
         self, locator: str, timeout: int = 60, poll_frequency: int = 3
@@ -200,10 +217,30 @@ class WrappedDriver:
             poll_frequency=poll_frequency,
         )
 
+    def wait_for_element_to_be_present_by_id(
+        self, locator: str, timeout: int = 60, poll_frequency: int = 3
+    ) -> bool:
+        """Wait for element to be present using ID locator"""
+        return self.wait_for_element_to_be_present(
+            by=By.ID,
+            locator=locator,
+            timeout=timeout,
+            poll_frequency=poll_frequency,
+        )
+
+    def wait_for_element_not_to_be_present(
+        self, by: By, locator: str, timeout: int = 5, poll_frequency: int = 3
+    ) -> bool:
+        """Wait for element to not be present"""
+        LOGGER.debug(msg=f"Waiting for locator to NOT be present: {locator}")
+        return WebDriverWait(
+            driver=self.driver, timeout=timeout, poll_frequency=poll_frequency
+        ).until_not(EC.presence_of_element_located((by, locator)))
+
     def wait_for_element_not_to_be_present_by_css(
         self, locator: str, timeout: int = 5, poll_frequency: int = 3
     ) -> bool:
-        """Wait for element to be present using CSS locator"""
+        """Wait for element not to be present using CSS locator"""
         return self.wait_for_element_not_to_be_present(
             by=By.CSS_SELECTOR,
             locator=locator,
@@ -211,45 +248,16 @@ class WrappedDriver:
             poll_frequency=poll_frequency,
         )
 
-    def wait_for_element_to_be_visible_by_css(
-        self, locator: str, timeout: int = 60, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element to be present using CSS locator"""
-        return self.wait_for_element_to_be_visible(
-            by=By.CSS_SELECTOR,
-            locator=locator,
-            timeout=timeout,
-            poll_frequency=poll_frequency,
-        )
-
-    def wait_for_element_not_to_be_visible_by_css(
+    def wait_for_element_not_to_be_present_by_id(
         self, locator: str, timeout: int = 5, poll_frequency: int = 3
     ) -> bool:
-        """Wait for element to be present using CSS locator"""
-        return self.wait_for_element_not_to_be_visible(
-            by=By.CSS_SELECTOR,
+        """Wait for element not to be present using ID locator"""
+        return self.wait_for_element_not_to_be_present(
+            by=By.ID,
             locator=locator,
             timeout=timeout,
             poll_frequency=poll_frequency,
         )
-
-    def wait_for_element_to_be_present(
-        self, by: By, locator: str, timeout: int = 60, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element to be present"""
-        LOGGER.debug(msg=f"Waiting for locator to be present: {locator}")
-        return WebDriverWait(
-            driver=self.driver, timeout=timeout, poll_frequency=poll_frequency
-        ).until(EC.presence_of_element_located((by, locator)))
-
-    def wait_for_element_not_to_be_present(
-        self, by: By, locator: str, timeout: int = 5, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element to be present"""
-        LOGGER.debug(msg=f"Waiting for locator to NOT be present: {locator}")
-        return WebDriverWait(
-            driver=self.driver, timeout=timeout, poll_frequency=poll_frequency
-        ).until_not(EC.presence_of_element_located((by, locator)))
 
     def wait_for_element_to_be_visible(
         self, by: By, locator: str, timeout: int = 60, poll_frequency: int = 3
@@ -263,6 +271,28 @@ class WrappedDriver:
             driver=self.driver, timeout=timeout, poll_frequency=poll_frequency
         ).until(EC.visibility_of_element_located((by, locator)))
 
+    def wait_for_element_to_be_visible_by_css(
+        self, locator: str, timeout: int = 60, poll_frequency: int = 3
+    ) -> bool:
+        """Wait for element to be visible using CSS locator"""
+        return self.wait_for_element_to_be_visible(
+            by=By.CSS_SELECTOR,
+            locator=locator,
+            timeout=timeout,
+            poll_frequency=poll_frequency,
+        )
+
+    def wait_for_element_to_be_visible_by_id(
+        self, locator: str, timeout: int = 60, poll_frequency: int = 3
+    ) -> bool:
+        """Wait for element to be visible using ID locator"""
+        return self.wait_for_element_to_be_visible(
+            by=By.ID,
+            locator=locator,
+            timeout=timeout,
+            poll_frequency=poll_frequency,
+        )
+
     def wait_for_element_not_to_be_visible(
         self, by: By, locator: str, timeout: int = 5, poll_frequency: int = 3
     ) -> bool:
@@ -274,3 +304,25 @@ class WrappedDriver:
         return WebDriverWait(
             driver=self.driver, timeout=timeout, poll_frequency=poll_frequency
         ).until_not(EC.visibility_of_element_located((by, locator)))
+
+    def wait_for_element_not_to_be_visible_by_css(
+        self, locator: str, timeout: int = 5, poll_frequency: int = 3
+    ) -> bool:
+        """Wait for element to be present using CSS locator"""
+        return self.wait_for_element_not_to_be_visible(
+            by=By.CSS_SELECTOR,
+            locator=locator,
+            timeout=timeout,
+            poll_frequency=poll_frequency,
+        )
+
+    def wait_for_element_not_to_be_visible_by_id(
+        self, locator: str, timeout: int = 5, poll_frequency: int = 3
+    ) -> bool:
+        """Wait for element to be present using ID locator"""
+        return self.wait_for_element_not_to_be_visible(
+            by=By.ID,
+            locator=locator,
+            timeout=timeout,
+            poll_frequency=poll_frequency,
+        )
