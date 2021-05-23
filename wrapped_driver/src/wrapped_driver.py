@@ -193,8 +193,10 @@ class WrappedDriver:
             element = self.get_element_by_css(locator=locator)
         element.screenshot(filename=file_name)
 
-    def scroll_to_element(self, element: WebElement):
+    def scroll_to_element(self, locator: str = None, element: WebElement = None):
         """Helper method to scroll down to element"""
+        if not element:
+            element = self.get_element_by_css(locator=locator)
         LOGGER.debug(f"Scrolling to WebElement: {element}")
         ActionChains(self.driver).move_to_element(element).perform()
 
