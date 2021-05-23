@@ -66,6 +66,7 @@ class WrappedDriver:
         headless: bool = False,
         mobile: bool = False,
         user_agent: str = USER_AGENT,
+        window_size: tuple = None,
     ):
         self.options = (
             get_firefox_options() if browser == "firefox" else get_chrome_options()
@@ -74,11 +75,16 @@ class WrappedDriver:
             self.options.add_argument("--headless")
             self.options.add_argument("--no-sandbox")
 
+        if window_size:
+            height, width = window_size
+            self.options.add_argument(f"--window-size={width},{height}")
+
         if mobile:
             self.options.add_argument(MOBILE_USER_AGENT)
         else:
             self.options.add_argument(user_agent)
-            self.options.add_argument("--window-size=1920,1080")
+            if not window_size:
+                self.options.add_argument("--window-size=1920,1080")
 
         if browser == "chrome":
             self.driver = webdriver.Chrome(
@@ -156,6 +162,10 @@ class WrappedDriver:
         self.driver.execute_script(
             f"arguments[0].style.border='3px solid {color}'", element
         )
+
+    def maximize_window(self):
+        """Maximize window"""
+        self.driver.maximize_window()
 
     def move_mouse_by_offset(self, x, y):
         """Helper method to move cursor off screen"""

@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name="WrappedDriver",
-    version="0.1.2",
+    version="0.1.3",
     packages=find_packages(),
     install_requires=["selenium"],
     include_package_data=False,
