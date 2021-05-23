@@ -76,8 +76,8 @@ class WrappedDriver:
             self.options.add_argument("--no-sandbox")
 
         if window_size:
-            height, width = window_size
-            self.options.add_argument(f"--window-size={height},{width}")
+            width, height = window_size
+            self.options.add_argument(f"--window-size={width},{height}")
 
         if mobile:
             self.options.add_argument(MOBILE_USER_AGENT)
