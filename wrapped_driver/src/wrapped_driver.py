@@ -77,7 +77,7 @@ class WrappedDriver:
 
         if window_size:
             height, width = window_size
-            self.options.add_argument(f"--window-size={width},{height}")
+            self.options.add_argument(f"--window-size={height},{width}")
 
         if mobile:
             self.options.add_argument(MOBILE_USER_AGENT)
