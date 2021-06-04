@@ -1,14 +1,13 @@
 FROM python:3.7-slim-buster
 LABEL maintainer="Brian A <brian@dadgumsalsa.com>"
 WORKDIR /usr/src
-COPY tests \
-  wrapped_driver/src \
-  wrapped_driver/requirements.txt ./
+COPY wrapped_driver ./
 RUN apt-get update \
  && apt-get upgrade -y \
  # Install tools for building
  && toolDeps="git aptitude" \
- && apt-get install -y --no-install-recommends --no-install-suggests $toolDeps \
+ && pythonDeps="python3-dev gcc libc-dev libffi-dev" \
+ && apt-get install -y --no-install-recommends --no-install-suggests $pythonDeps $toolDeps \
  # Install chromedriver and chromium with aptitude
  && aptitude install chromium-driver -y \
  && pip install -r requirements.txt \
@@ -18,5 +17,3 @@ RUN apt-get update \
             $toolDeps \
  && rm -rf /var/lib/apt/lists/* \
            /tmp/*
-CMD ["python", "-m", "pytest", "-vv", "wrapped_driver/tests/"]
-
