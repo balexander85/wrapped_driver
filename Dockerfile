@@ -18,5 +18,5 @@ RUN apt-get update \
             $toolDeps \
  && rm -rf /var/lib/apt/lists/* \
            /tmp/*
-CMD ["python", "-m", "pytest", "-vv", "tests/"]
+CMD ["python", "-m", "pytest", "-vv", "wrapped_driver/tests/"]
 

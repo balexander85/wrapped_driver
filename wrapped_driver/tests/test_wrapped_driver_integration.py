@@ -1,4 +1,4 @@
-from tests.base_test import BaseTest
+from wrapped_driver.tests.base_test import BaseTest
 
 
 class TestChrome(BaseTest):
