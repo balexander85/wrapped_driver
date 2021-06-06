@@ -2,7 +2,4 @@ version: '3.7'
 services:
   wrapped_driver:
     build: .
-    image: balexander85/wrapped_webdriver
-    volumes:
-      - ./tests/:/usr/src/tests/
-
+    image: balexander85/wrapped_driver:latest
