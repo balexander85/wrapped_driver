@@ -1,8 +1,10 @@
-.pytest_cache
-wrapped_driver/src/__pycache__
-wrapped_driver/tests/__pycache__
-wrapped_driver/tests/geckodriver.log
 .idea
 .github
 .gitignore
+.pytest_cache
+geckodriver.log
 CODE_OF_CONDUCT.md
+docker-compose.yml
+Dockerfile
+tests/__pycache__
+wrapped_driver/src/__pycache__

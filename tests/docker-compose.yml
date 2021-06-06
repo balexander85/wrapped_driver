@@ -1,0 +1,6 @@
+version: '3.7'
+services:
+  app_test:
+    command: python -m pytest -vv tests/
+    container_name: wrapped_driver_test
+    image: balexander85/wrapped_driver:osxM1
