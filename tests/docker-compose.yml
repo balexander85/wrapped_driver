@@ -3,5 +3,5 @@ services:
   app_test:
     build: .
     image: balexander85/wrapped_driver:test
-    container_name: wrapped_driver_test
-    command: python -m pytest -vv tests/
+    container_name: driver_test
+    command: python -m pytest -vv .

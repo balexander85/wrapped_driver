@@ -3,7 +3,7 @@ import pytest
 from wrapped_driver import WrappedDriver
 
 
-TEST_SITE_URL = "http://www.dadgumsalsa.com"
+TEST_SITE_URL = "http://dadgumsalsa.com/"
 TEST_SITE_TITLE = "DGS | Home"
 
 

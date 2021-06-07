@@ -1,1 +1,1 @@
-from wrapped_driver.wrapped_driver import WrappedDriver
+from wrapped_driver import WrappedDriver

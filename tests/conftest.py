@@ -1,12 +1,16 @@
+from platform import platform
+
 import pytest
 
-from wrapped_driver.wrapped_driver import WrappedDriver
+from wrapped_driver import WrappedDriver
 
 
-# CHROME_DRIVER_PATH = "/opt/homebrew/bin/chromedriver"
-# GECKODRIVER_PATH = "/opt/homebrew/bin/geckodriver"
-CHROME_DRIVER_PATH = "/usr/bin/chromedriver"
-GECKODRIVER_PATH = "/usr/bin/geckodriver"
+if "macOS" in platform():
+    CHROME_DRIVER_PATH = "/opt/homebrew/bin/chromedriver"
+    GECKODRIVER_PATH = "/opt/homebrew/bin/geckodriver"
+else:
+    CHROME_DRIVER_PATH = "/usr/bin/chromedriver"
+    GECKODRIVER_PATH = "/usr/bin/geckodriver"
 
 
 @pytest.fixture(autouse=True, name="driver")
