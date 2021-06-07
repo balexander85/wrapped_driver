@@ -1,7 +1,7 @@
 FROM python:3.7-slim-buster
 LABEL maintainer="Brian A <brian@dadgumsalsa.com>"
 WORKDIR /usr/src
-COPY . .
+COPY wrapped_driver setup.py README.md MANIFEST.in ./
 RUN apt-get update \
  && apt-get upgrade -y \
  # Create python egg
