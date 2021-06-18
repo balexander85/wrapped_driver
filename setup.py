@@ -18,7 +18,7 @@ setup(
     license="MIT License",
     description=DESCRIPTION,
     long_description=README,
-    url="https://github.com/balexander85/WrappedDriver",
+    url="https://github.com/balexander85/wrapped_driver",
     author="Brian Alexander",
     author_email="brian@dadgumsalsa.com",
     classifiers=[
