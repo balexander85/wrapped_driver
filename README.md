@@ -2,7 +2,7 @@
 
 How to install:
 
-`pip install -e git+https://github.com/balexander85/WrappedDriver.git#egg=WrappedDriver`
+`pip install -e git+https://github.com/balexander85/wrapped_driver.git#egg=wrapped_driver`
 
 ```$python
 from wrapped_driver import WrappedDriver
