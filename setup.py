@@ -1,7 +1,7 @@
 import os
 from setuptools import find_packages, setup
 
-VERSION = "0.1.4"
+VERSION = "0.1.5"
 DESCRIPTION = "A simple wrapper for selenium webdriver."
 with open(os.path.join(os.path.dirname(__file__), "README.md")) as readme:
     README = readme.read()
@@ -10,7 +10,7 @@ with open(os.path.join(os.path.dirname(__file__), "README.md")) as readme:
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name="WrappedDriver",
+    name="wrapped_driver",
     version=VERSION,
     packages=find_packages(),
     install_requires=["selenium>=3.141.0"],
