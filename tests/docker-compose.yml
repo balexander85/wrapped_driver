@@ -2,6 +2,6 @@ version: '3.7'
 services:
   app_test:
     build: .
-    image: balexander85/wrapped_driver:test
+    image: balexander85/wrapped_driver_test
     container_name: driver_test
     command: python -m pytest -vv .
