@@ -8,6 +8,7 @@ from typing import List
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -86,14 +87,11 @@ class WrappedDriver:
             if not window_size:
                 self.options.add_argument("--window-size=1920,1080")
 
+        service = Service(executable_path=executable_path)
         if browser == "chrome":
-            self.driver = webdriver.Chrome(
-                executable_path=executable_path, options=self.options
-            )
+            self.driver = webdriver.Chrome(service=service, options=self.options)
         elif browser == "firefox":
-            self.driver = webdriver.Firefox(
-                executable_path=executable_path, options=self.options
-            )
+            self.driver = webdriver.Firefox(service=service, options=self.options)
         else:
             LOGGER.error(f"Invalid value for browser: {browser}")
 

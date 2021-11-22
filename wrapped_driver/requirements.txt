@@ -1,2 +1,1 @@
-selenium>=3.141.0
-black[d]==21.5b2
+selenium==4.1.0
