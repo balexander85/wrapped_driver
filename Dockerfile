@@ -1,5 +1,5 @@
 FROM python:slim-buster
-ARG build_dependencies="build-essential libssl-dev libffi-dev rustc"
+ARG build_dependencies="build-essential libssl-dev libffi-dev"
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 LABEL maintainer="Brian A <brian@dadgumsalsa.com>"
 WORKDIR /usr/src
