@@ -2,4 +2,4 @@ version: '3.7'
 services:
   wrapped_driver:
     build: .
-    image: balexander85/wrapped_driver:latest
+    image: balexander85/wrapped_driver:slim-buster
