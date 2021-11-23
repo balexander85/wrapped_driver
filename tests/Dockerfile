@@ -19,10 +19,11 @@ RUN apt-get update \
  && cat /usr/src/arm_config >> /tmp/geckodriver-${geckodriver_ver}/.cargo/config \
  && cd /tmp/geckodriver-${geckodriver_ver} \
  && cargo build --release --target armv7-unknown-linux-gnueabihf \
- && mv /tmp/geckodriver-0.30.0/target/armv7-unknown-linux-gnueabihf/release/geckodriver /usr/bin/geckodriver \
+ && mv /tmp/geckodriver-${geckodriver_ver}/target/armv7-unknown-linux-gnueabihf/release/geckodriver /usr/bin/geckodriver \
  && . /wrapped-driver-env/bin/activate \
  && pip install pytest \
  # Cleanup unnecessary stuff
+ && rustup self uninstall -y \
  && apt-get purge -y --auto-remove \
                   -o APT::AutoRemove::RecommendsImportant=false \
             $build_dependencies \
