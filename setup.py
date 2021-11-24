@@ -1,7 +1,7 @@
 import os
 from setuptools import find_packages, setup
 
-VERSION = "0.1.5"
+VERSION = "0.2.0"
 DESCRIPTION = "A simple wrapper for selenium webdriver."
 with open(os.path.join(os.path.dirname(__file__), "README.md")) as readme:
     README = readme.read()
@@ -13,7 +13,7 @@ setup(
     name="wrapped_driver",
     version=VERSION,
     packages=find_packages(),
-    install_requires=["selenium>=3.141.0"],
+    install_requires=["selenium"],
     include_package_data=False,
     license="MIT License",
     description=DESCRIPTION,
@@ -33,5 +33,5 @@ setup(
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.10",
 )

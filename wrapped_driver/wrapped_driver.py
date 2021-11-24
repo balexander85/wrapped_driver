@@ -12,7 +12,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 
 
@@ -137,19 +137,19 @@ class WrappedDriver:
         return self.driver.get_log("browser")
 
     def get_element_by_id(self, element_id: str) -> WebElement:
-        return self.driver.find_element_by_id(element_id)
+        return self.driver.find_element(by=By.ID, value=element_id)
 
     def get_elements_by_id(self, element_id: str) -> List[WebElement]:
-        return self.driver.find_elements_by_id(element_id)
+        return self.driver.find_elements(by=By.ID, value=element_id)
 
     def get_element_by_css(self, locator: str) -> WebElement:
-        return self.driver.find_element_by_css_selector(css_selector=locator)
+        return self.driver.find_element(by=By.CSS_SELECTOR, value=locator)
 
     def get_elements_by_css(self, locator: str) -> List[WebElement]:
-        return self.driver.find_elements_by_css_selector(css_selector=locator)
+        return self.driver.find_elements(by=By.CSS_SELECTOR, value=locator)
 
     def get_element_by_text(self, text: str) -> WebElement:
-        return self.driver.find_element_by_xpath(xpath=f"//*[text()='{text}']")
+        return self.driver.find_element(by=By.XPATH, value=f"//*[text()='{text}']")
 
     def highlight_element(
         self, locator: str = None, element: WebElement = None, color: str = "red"
@@ -214,7 +214,7 @@ class WrappedDriver:
         LOGGER.debug(msg=f"Waiting for locator to be present: {locator}")
         return WebDriverWait(
             driver=self.driver, timeout=timeout, poll_frequency=poll_frequency
-        ).until(EC.presence_of_element_located((by, locator)))
+        ).until(ec.presence_of_element_located((by, locator)))
 
     def wait_for_element_to_be_present_by_css(
         self, locator: str, timeout: int = 60, poll_frequency: int = 3
@@ -245,7 +245,7 @@ class WrappedDriver:
         LOGGER.debug(msg=f"Waiting for locator to NOT be present: {locator}")
         return WebDriverWait(
             driver=self.driver, timeout=timeout, poll_frequency=poll_frequency
-        ).until_not(EC.presence_of_element_located((by, locator)))
+        ).until_not(ec.presence_of_element_located((by, locator)))
 
     def wait_for_element_not_to_be_present_by_css(
         self, locator: str, timeout: int = 5, poll_frequency: int = 3
@@ -279,7 +279,7 @@ class WrappedDriver:
         LOGGER.debug(msg=f"Waiting for locator to be visible: {locator}")
         return WebDriverWait(
             driver=self.driver, timeout=timeout, poll_frequency=poll_frequency
-        ).until(EC.visibility_of_element_located((by, locator)))
+        ).until(ec.visibility_of_element_located((by, locator)))
 
     def wait_for_element_to_be_visible_by_css(
         self, locator: str, timeout: int = 60, poll_frequency: int = 3
@@ -313,7 +313,7 @@ class WrappedDriver:
         LOGGER.debug(msg=f"Waiting for locator to be visible: {locator}")
         return WebDriverWait(
             driver=self.driver, timeout=timeout, poll_frequency=poll_frequency
-        ).until_not(EC.visibility_of_element_located((by, locator)))
+        ).until_not(ec.visibility_of_element_located((by, locator)))
 
     def wait_for_element_not_to_be_visible_by_css(
         self, locator: str, timeout: int = 5, poll_frequency: int = 3
