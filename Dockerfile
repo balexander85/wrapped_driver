@@ -1,9 +1,8 @@
 FROM python:slim-buster
 ARG build_dependencies="build-essential libssl-dev libffi-dev"
-ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 LABEL maintainer="Brian A <brian@dadgumsalsa.com>"
-WORKDIR /usr/src
-COPY wrapped_driver setup.py README.md MANIFEST.in ./
+WORKDIR /app
+COPY wrappeddriver.py __init__.py setup.py README.md MANIFEST.in ./
 RUN apt-get update \
  && apt-get upgrade -y \
  # Install packages needed to build
@@ -23,14 +22,4 @@ RUN apt-get update \
                   -o APT::AutoRemove::RecommendsImportant=false \
                   $build_dependencies \
  && rm -rf /var/lib/apt/lists/* \
-           /tmp/* \
-           __pycache__ \
-           dist/ \
-           build/ \
-           src/ \
-           requirements.txt \
-           wrapped_driver.py \
-           MANIFEST.in \
-           README.md \
-           setup.py \
-           __init__.py
+           /tmp/*

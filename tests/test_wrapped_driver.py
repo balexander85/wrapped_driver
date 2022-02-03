@@ -1,7 +1,7 @@
 import pytest
 from selenium.common.exceptions import WebDriverException
 
-from wrapped_driver import WrappedDriver
+from wrappeddriver import WrappedDriver
 
 
 def test_empty_chromedriver_path():

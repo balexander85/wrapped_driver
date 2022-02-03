@@ -7,4 +7,3 @@ CODE_OF_CONDUCT.md
 docker-compose.yml
 Dockerfile
 tests/__pycache__
-wrapped_driver/src/__pycache__

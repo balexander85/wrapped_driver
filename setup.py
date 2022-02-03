@@ -1,7 +1,7 @@
 import os
 from setuptools import find_packages, setup
 
-VERSION = "0.2.0"
+VERSION = "0.2.1"
 DESCRIPTION = "A simple wrapper for selenium webdriver."
 with open(os.path.join(os.path.dirname(__file__), "README.md")) as readme:
     README = readme.read()
@@ -10,7 +10,7 @@ with open(os.path.join(os.path.dirname(__file__), "README.md")) as readme:
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name="wrapped_driver",
+    name="wrappeddriver",
     version=VERSION,
     packages=find_packages(),
     install_requires=["selenium"],
@@ -18,7 +18,7 @@ setup(
     license="MIT License",
     description=DESCRIPTION,
     long_description=README,
-    url="https://github.com/balexander85/wrapped_driver",
+    url="https://github.com/balexander85/wrappeddriver",
     author="Brian Alexander",
     author_email="brian@dadgumsalsa.com",
     classifiers=[

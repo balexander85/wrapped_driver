@@ -1,5 +1,5 @@
 version: '3.7'
 services:
-  wrapped_driver:
+  wrappeddriver:
     build: .
-    image: balexander85/wrapped_driver
+    image: balexander85/wrappeddriver:latest
