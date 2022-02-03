@@ -3,7 +3,6 @@
 FROM python:slim-buster as gecko-image
 ARG geckodriver_ver=0.30.0
 ARG build_dependencies="curl gcc-arm-linux-gnueabihf libc6-armhf-cross libc6-dev-armhf-cross"
-ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 COPY arm_config .
 RUN apt-get update \
  && apt-get upgrade -y \

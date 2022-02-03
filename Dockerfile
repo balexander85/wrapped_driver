@@ -1,5 +1,7 @@
 FROM python:slim-buster
 ARG build_dependencies="build-essential libssl-dev libffi-dev"
+# need env var ERROR: Could not build wheels for cryptography
+ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 LABEL maintainer="Brian A <brian@dadgumsalsa.com>"
 WORKDIR /app
 COPY wrappeddriver.py __init__.py setup.py README.md MANIFEST.in ./
