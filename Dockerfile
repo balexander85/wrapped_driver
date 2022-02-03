@@ -24,4 +24,13 @@ RUN apt-get update \
                   $build_dependencies \
  && rm -rf /var/lib/apt/lists/* \
            /tmp/* \
-           __pycache__
+           __pycache__ \
+           dist/ \
+           build/ \
+           src/ \
+           requirements.txt \
+           wrapped_driver.py \
+           MANIFEST.in \
+           README.md \
+           setup.py \
+           __init__.py

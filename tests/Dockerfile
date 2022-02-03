@@ -19,7 +19,7 @@ RUN apt-get update \
  && cargo build --release --target armv7-unknown-linux-gnueabihf \
  && mv /geckodriver-${geckodriver_ver}/target/armv7-unknown-linux-gnueabihf/release/geckodriver /geckodriver
 
-FROM balexander85/wrapped_driver:slim-buster
+FROM balexander85/wrapped_driver:latest
 ARG test_dependencies="firefox-esr chromium-driver"
 LABEL maintainer="Brian A <brian@dadgumsalsa.com>"
 WORKDIR /usr/src
