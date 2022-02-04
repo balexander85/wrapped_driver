@@ -1,7 +1,7 @@
-FROM python:slim-buster
+FROM python:buster
 ARG build_dependencies="build-essential libssl-dev libffi-dev"
 # need env var ERROR: Could not build wheels for cryptography
-ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
+#ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 LABEL maintainer="Brian A <brian@dadgumsalsa.com>"
 WORKDIR /app
 COPY wrappeddriver.py requirements.txt __init__.py setup.py README.md MANIFEST.in ./
@@ -17,7 +17,7 @@ RUN apt-get update \
  && . /wrapped-driver-env/bin/activate \
  && pip install --upgrade pip \
  # Installing version that can be built on RaspberryPi
- && pip install cryptography==3.4.6 \
+# && pip install cryptography==3.1.1 \
  && pip install -e . \
  # Cleanup unnecessary stuff
  && apt-get purge -y --auto-remove \

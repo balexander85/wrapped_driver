@@ -1,6 +1,6 @@
 import pytest
 
-from wrapped_driver import WrappedDriver
+from wrappeddriver import WrappedDriver
 
 
 TEST_SITE_URL = "http://dadgumsalsa.com/"
