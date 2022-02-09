@@ -1,3 +1,7 @@
+"""conftest.py
+
+File for test fixtures
+"""
 from platform import platform
 
 import pytest

@@ -95,7 +95,7 @@ class WrappedDriver:
         elif browser == "firefox":
             self.driver = webdriver.Firefox(service=service, options=self.options)
         else:
-            LOGGER.error(f"Invalid value for browser: {browser}")
+            LOGGER.error("Invalid value for browser: %s", browser)
 
     def __enter__(self):
         return self

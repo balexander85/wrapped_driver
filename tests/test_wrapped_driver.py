@@ -1,3 +1,7 @@
+"""test_wrapped_driver.py
+
+Sort of Unit test for WrappedDriver class
+"""
 import pytest
 from selenium.common.exceptions import WebDriverException
 
