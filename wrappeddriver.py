@@ -125,8 +125,8 @@ class WrappedDriver:
             if not element:
                 element = self.get_element_by_css(locator)
             return element.is_displayed()
-        except NoSuchElementException as e:
-            LOGGER.debug(e)
+        except NoSuchElementException as error:
+            LOGGER.debug(error)
         return False
 
     def delete_element(self, locator: str = None, element: WebElement = None):
@@ -277,7 +277,7 @@ class WrappedDriver:
     ) -> bool:
         """Wait for element to be visible"""
         if not self.wait_for_element_to_be_present(by=by, locator=locator):
-            LOGGER.info(f"Locator: {locator} was not present.")
+            LOGGER.info("Locator: %s was not present.", locator)
 
         LOGGER.debug(msg=f"Waiting for locator to be visible: {locator}")
         return WebDriverWait(
