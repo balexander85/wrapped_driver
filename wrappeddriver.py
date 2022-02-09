@@ -40,6 +40,7 @@ MOBILE_USER_AGENT = (
 
 
 def get_chrome_options() -> webdriver.ChromeOptions:
+    """Return ChromeOptions object for chromedriver"""
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--disable-features=VizDisplayCompositor")
     chrome_options.add_argument("--start-maximized")
@@ -49,6 +50,7 @@ def get_chrome_options() -> webdriver.ChromeOptions:
 
 
 def get_firefox_options() -> webdriver.FirefoxOptions:
+    """Return FirefoxOptions object for geckodriver"""
     firefox_options = webdriver.FirefoxOptions()
     firefox_options.add_argument("--disable-features=VizDisplayCompositor")
     firefox_options.add_argument("--start-maximized")
@@ -108,6 +110,7 @@ class WrappedDriver:
 
     @property
     def current_url(self) -> str:
+        """Return the URL that the webdriver is at currently"""
         return self.driver.current_url
 
     def element_visible(self, locator: str = None, element: WebElement = None) -> bool:

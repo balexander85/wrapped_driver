@@ -1,3 +1,7 @@
+"""base_test.py
+
+Base test module to be utilized for browser specific test module
+"""
 import pytest
 
 from wrappeddriver import WrappedDriver
