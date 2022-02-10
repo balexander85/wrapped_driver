@@ -6,6 +6,7 @@ from base_test import BaseTest
 
 
 class TestChrome(BaseTest):
+    """Test class for Chrome browser tests"""
     ...
 
 

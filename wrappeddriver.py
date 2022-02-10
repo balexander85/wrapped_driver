@@ -25,11 +25,12 @@ logging.basicConfig(
 LOGGER = logging.getLogger(__name__)
 
 
-USER_AGENT = (
+DEFAULT_DESKTOP_USER_AGENT = (
     "user-agent=Mozilla/5.0 "
     "(Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36"
 )
+DEFAULT_DESKTOP_WINDOW_SIZE = "1920,1080"
 
 MOBILE_USER_AGENT = (
     "user-agent=Mozilla/5.0 "
@@ -68,8 +69,8 @@ class WrappedDriver:
         browser: str = "chrome",
         headless: bool = False,
         mobile: bool = False,
-        user_agent: str = USER_AGENT,
-        window_size: tuple = None,
+        user_agent: str = DEFAULT_DESKTOP_USER_AGENT,
+        **kwargs,
     ):
         self.options = (
             get_firefox_options() if browser == "firefox" else get_chrome_options()
@@ -78,16 +79,18 @@ class WrappedDriver:
             self.options.add_argument("--headless")
             self.options.add_argument("--no-sandbox")
 
-        if window_size:
-            width, height = window_size
+        if kwargs.get("window_size"):
+            width, height = kwargs.get("window_size")
             self.options.add_argument(f"--window-size={width},{height}")
 
         if mobile:
             self.options.add_argument(MOBILE_USER_AGENT)
         else:
             self.options.add_argument(user_agent)
-            if not window_size:
-                self.options.add_argument("--window-size=1920,1080")
+            if not kwargs.get("window_size"):
+                self.options.add_argument(
+                    f"--window-size={DEFAULT_DESKTOP_WINDOW_SIZE}"
+                )
 
         service = Service(executable_path=executable_path)
         if browser == "chrome":
@@ -170,7 +173,7 @@ class WrappedDriver:
 
     def move_mouse_by_offset(self, x, y):
         """Helper method to move cursor off screen"""
-        LOGGER.debug(f"Moving cursor off screen")
+        LOGGER.debug("Moving cursor off screen")
         ActionChains(self.driver).move_by_offset(xoffset=x, yoffset=y).perform()
 
     def open(self, url: str):

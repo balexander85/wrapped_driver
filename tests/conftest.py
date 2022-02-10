@@ -17,6 +17,14 @@ else:
     GECKODRIVER_PATH = "/usr/bin/geckodriver"
 
 
+@pytest.fixture(autouse=True, name="bin_path")
+def get_bin_path() -> str:
+    if "macOS" in platform():
+        return "/opt/homebrew/bin"
+    else:
+        return "/usr/bin"
+
+
 @pytest.fixture(autouse=True, name="driver")
 def wrapped_driver(request) -> WrappedDriver:
     browser_name = "firefox" if "FireFox" in str(request.cls) else "chrome"
