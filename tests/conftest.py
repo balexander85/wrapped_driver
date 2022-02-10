@@ -21,8 +21,7 @@ else:
 def get_bin_path() -> str:
     if "macOS" in platform():
         return "/opt/homebrew/bin"
-    else:
-        return "/usr/bin"
+    return "/usr/bin"
 
 
 @pytest.fixture(autouse=True, name="driver")
