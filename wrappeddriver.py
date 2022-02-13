@@ -164,10 +164,12 @@ class WrappedDriver:
         """Maximize window"""
         self.driver.maximize_window()
 
-    def move_mouse_by_offset(self, x, y):
+    def move_mouse_by_offset(self, x_offset, y_offset):
         """Helper method to move cursor off screen"""
         LOGGER.debug("Moving cursor off screen")
-        ActionChains(self.driver).move_by_offset(xoffset=x, yoffset=y).perform()
+        ActionChains(self.driver).move_by_offset(
+            xoffset=x_offset, yoffset=y_offset
+        ).perform()
 
     def open(self, url: str):
         """Open page for URL passed in"""
