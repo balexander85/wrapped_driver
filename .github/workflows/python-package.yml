@@ -36,6 +36,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Analysing the code with pylint
       run: |
+        # stop the build if there are Python linting and/or syntax errors
         pylint --disable=too-many-arguments,too-many-public-methods,not-callable,invalid-name,no-name-in-module,missing-function-docstring,logging-fstring-interpolation $(git ls-files '*.py')
     - name: Test with pytest
       run: |
