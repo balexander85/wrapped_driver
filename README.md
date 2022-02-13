@@ -7,8 +7,10 @@ How to install:
 ```$python
 from wrappeddriver import WrappedDriver
 
+CHROME_DRIVER_PATH = "/usr/bin/chromedriver"
+
 driver = WrappedDriver(
-            chrome_driver_path=CHROME_DRIVER_PATH,
+            executable_path=CHROME_DRIVER_PATH,
             browser="chrome",
             headless=headless,
          )
