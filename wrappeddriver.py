@@ -143,18 +143,19 @@ class WrappedDriver:
         return self.driver.get_log("browser")
 
     def get_element_by_id(self, element_id: str) -> WebElement:
+        """Find element by element ID and return element"""
         return self.driver.find_element(by=By.ID, value=element_id)
 
-    def get_elements_by_id(self, element_id: str) -> List[WebElement]:
-        return self.driver.find_elements(by=By.ID, value=element_id)
-
     def get_element_by_css(self, locator: str) -> WebElement:
+        """Find element by css locator and return element"""
         return self.driver.find_element(by=By.CSS_SELECTOR, value=locator)
 
     def get_elements_by_css(self, locator: str) -> List[WebElement]:
+        """Find elements by css locator and return element"""
         return self.driver.find_elements(by=By.CSS_SELECTOR, value=locator)
 
     def get_element_by_text(self, text: str) -> WebElement:
+        """Find element by element text and return element"""
         return self.driver.find_element(by=By.XPATH, value=f"//*[text()='{text}']")
 
     def highlight_element(
@@ -177,6 +178,7 @@ class WrappedDriver:
         ActionChains(self.driver).move_by_offset(xoffset=x, yoffset=y).perform()
 
     def open(self, url: str):
+        """Open page for URL passed in"""
         LOGGER.debug("self.open(): self.driver.get(%s)", url)
         self.driver.get(url)
 
@@ -211,6 +213,7 @@ class WrappedDriver:
 
     @property
     def title(self) -> str:
+        """Return page title <title>"""
         return self.driver.title
 
     def wait_for_element_to_be_present(
