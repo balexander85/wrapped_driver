@@ -5,7 +5,7 @@ Used for packaging wrappeddriver
 import os
 from setuptools import find_packages, setup
 
-VERSION = "0.2.4"
+VERSION = "0.2.5"
 DESCRIPTION = "A simple wrapper for selenium webdriver."
 with open(
     os.path.join(os.path.dirname(__file__), "README.md"), encoding="UTF-8"
