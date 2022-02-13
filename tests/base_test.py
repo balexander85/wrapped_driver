@@ -18,6 +18,7 @@ class BaseTest:
 
     @pytest.fixture(autouse=True)
     def setup(self, driver):
+        """Test setup method"""
         self.driver = driver
         self.driver.open(TEST_SITE_URL)
 

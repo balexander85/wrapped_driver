@@ -19,6 +19,11 @@ else:
 
 @pytest.fixture(autouse=True, name="bin_path")
 def get_bin_path() -> str:
+    """Return bin path based on OS
+
+    Note:
+        * Trying to develop on mac but actually run on raspberry pi
+    """
     if "macOS" in platform():
         return "/opt/homebrew/bin"
     return "/usr/bin"
@@ -26,6 +31,7 @@ def get_bin_path() -> str:
 
 @pytest.fixture(autouse=True, name="driver")
 def wrapped_driver(request) -> WrappedDriver:
+    """Fixture to return instance of WrappedDriver"""
     browser_name = "firefox" if "FireFox" in str(request.cls) else "chrome"
     executable_path = (
         GECKODRIVER_PATH if "firefox" == browser_name else CHROME_DRIVER_PATH
