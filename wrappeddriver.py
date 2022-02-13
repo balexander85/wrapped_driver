@@ -69,9 +69,13 @@ class WrappedDriver:
         browser: str = "chrome",
         headless: bool = False,
         mobile: bool = False,
-        user_agent: str = DEFAULT_DESKTOP_USER_AGENT,
         **kwargs,
     ):
+        if kwargs.get("user_agent"):
+            user_agent = kwargs.get("user_agent")
+        else:
+            user_agent = DEFAULT_DESKTOP_USER_AGENT
+
         self.options = (
             get_firefox_options() if browser == "firefox" else get_chrome_options()
         )
