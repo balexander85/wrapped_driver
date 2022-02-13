@@ -16,6 +16,8 @@ def test_empty_chromedriver_path():
 
 def test_no_chromedriver_path():
     """Assert error is raised if no chromedriver path is used"""
+    # Disable all the no-value-for-parameter violations in this function
+    # pylint: disable=no-value-for-parameter
     with pytest.raises(TypeError):
         WrappedDriver(headless=True)
 

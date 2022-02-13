@@ -15,7 +15,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 
-from .constants import (
+from constants import (
     DEFAULT_DESKTOP_USER_AGENT,
     DEFAULT_DESKTOP_WINDOW_SIZE,
     MOBILE_USER_AGENT,
