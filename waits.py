@@ -22,7 +22,7 @@ WAIT_LOGGER = logging.getLogger(__name__)
 
 def wait_for_element_to_be_present(
     driver: webdriver,
-    by: By,
+    by: By,  # pylint: disable=invalid-name
     locator: str,
     timeout: int = 60,
     poll_frequency: int = 3,
@@ -63,7 +63,11 @@ def wait_for_element_to_be_present_by_id(
 
 
 def wait_for_element_not_to_be_present(
-    driver: webdriver, by: By, locator: str, timeout: int = 5, poll_frequency: int = 3
+    driver: webdriver,
+    by: By,  # pylint: disable=invalid-name
+    locator: str,
+    timeout: int = 5,
+    poll_frequency: int = 3,
 ) -> bool:
     """Wait for element to not be present"""
     WAIT_LOGGER.debug(msg=f"Waiting for locator to NOT be present: {locator}")
@@ -98,7 +102,11 @@ def wait_for_element_not_to_be_present_by_id(
 
 
 def wait_for_element_to_be_visible(
-    driver: webdriver, by: By, locator: str, timeout: int = 60, poll_frequency: int = 3
+    driver: webdriver,
+    by: By,  # pylint: disable=invalid-name
+    locator: str,
+    timeout: int = 60,
+    poll_frequency: int = 3,
 ) -> bool:
     """Wait for element to be visible"""
     if not wait_for_element_to_be_present(driver=driver, by=by, locator=locator):
@@ -137,7 +145,11 @@ def wait_for_element_to_be_visible_by_id(
 
 
 def wait_for_element_not_to_be_visible(
-    driver: webdriver, by: By, locator: str, timeout: int = 5, poll_frequency: int = 3
+    driver: webdriver,
+    by: By,  # pylint: disable=invalid-name
+    locator: str,
+    timeout: int = 5,
+    poll_frequency: int = 3,
 ) -> bool:
     """Wait for element NOT to be visible"""
     if not wait_for_element_to_be_present(driver=driver, by=by, locator=locator):
