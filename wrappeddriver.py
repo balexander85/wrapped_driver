@@ -177,7 +177,7 @@ class WrappedDriver:
         ActionChains(self.driver).move_by_offset(xoffset=x, yoffset=y).perform()
 
     def open(self, url: str):
-        LOGGER.debug(f"self.open(): self.driver.get({url})")
+        LOGGER.debug("self.open(): self.driver.get(%s)", url)
         self.driver.get(url)
 
     def quit_driver(self):
@@ -201,7 +201,7 @@ class WrappedDriver:
         """Helper method to scroll down to element"""
         if not element:
             element = self.get_element_by_css(locator=locator)
-        LOGGER.debug(f"Scrolling to WebElement: {element}")
+        LOGGER.debug("Scrolling to WebElement: %s", element)
         ActionChains(self.driver).move_to_element(element).perform()
 
     @property
@@ -314,7 +314,7 @@ class WrappedDriver:
     ) -> bool:
         """Wait for element NOT to be visible"""
         if not self.wait_for_element_to_be_present(by=by, locator=locator):
-            LOGGER.info(f"Locator: {locator} was not present.")
+            LOGGER.info("Locator: %s was not present.", locator)
 
         LOGGER.debug(msg=f"Waiting for locator to be visible: {locator}")
         return WebDriverWait(
