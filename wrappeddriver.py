@@ -12,16 +12,14 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support import expected_conditions as ec
-from selenium.webdriver.support.wait import WebDriverWait
 
 from constants import (
     DEFAULT_DESKTOP_USER_AGENT,
     DEFAULT_DESKTOP_WINDOW_SIZE,
+    LOGGER_FORMAT,
     MOBILE_USER_AGENT,
 )
 
-LOGGER_FORMAT = "%(asctime)s - %(levelname)s: %(message)s"
 logging.basicConfig(
     level=logging.INFO,
     format=LOGGER_FORMAT,
@@ -209,133 +207,3 @@ class WrappedDriver:
     def title(self) -> str:
         """Return page title <title>"""
         return self.driver.title
-
-    def wait_for_element_to_be_present(
-        self, by: By, locator: str, timeout: int = 60, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element to be present"""
-        LOGGER.debug(msg=f"Waiting for locator to be present: {locator}")
-        return WebDriverWait(
-            driver=self.driver, timeout=timeout, poll_frequency=poll_frequency
-        ).until(ec.presence_of_element_located((by, locator)))
-
-    def wait_for_element_to_be_present_by_css(
-        self, locator: str, timeout: int = 60, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element to be present using CSS locator"""
-        return self.wait_for_element_to_be_present(
-            by=By.CSS_SELECTOR,
-            locator=locator,
-            timeout=timeout,
-            poll_frequency=poll_frequency,
-        )
-
-    def wait_for_element_to_be_present_by_id(
-        self, locator: str, timeout: int = 60, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element to be present using ID locator"""
-        return self.wait_for_element_to_be_present(
-            by=By.ID,
-            locator=locator,
-            timeout=timeout,
-            poll_frequency=poll_frequency,
-        )
-
-    def wait_for_element_not_to_be_present(
-        self, by: By, locator: str, timeout: int = 5, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element to not be present"""
-        LOGGER.debug(msg=f"Waiting for locator to NOT be present: {locator}")
-        return WebDriverWait(
-            driver=self.driver, timeout=timeout, poll_frequency=poll_frequency
-        ).until_not(ec.presence_of_element_located((by, locator)))
-
-    def wait_for_element_not_to_be_present_by_css(
-        self, locator: str, timeout: int = 5, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element not to be present using CSS locator"""
-        return self.wait_for_element_not_to_be_present(
-            by=By.CSS_SELECTOR,
-            locator=locator,
-            timeout=timeout,
-            poll_frequency=poll_frequency,
-        )
-
-    def wait_for_element_not_to_be_present_by_id(
-        self, locator: str, timeout: int = 5, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element not to be present using ID locator"""
-        return self.wait_for_element_not_to_be_present(
-            by=By.ID,
-            locator=locator,
-            timeout=timeout,
-            poll_frequency=poll_frequency,
-        )
-
-    def wait_for_element_to_be_visible(
-        self, by: By, locator: str, timeout: int = 60, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element to be visible"""
-        if not self.wait_for_element_to_be_present(by=by, locator=locator):
-            LOGGER.info("Locator: %s was not present.", locator)
-
-        LOGGER.debug(msg=f"Waiting for locator to be visible: {locator}")
-        return WebDriverWait(
-            driver=self.driver, timeout=timeout, poll_frequency=poll_frequency
-        ).until(ec.visibility_of_element_located((by, locator)))
-
-    def wait_for_element_to_be_visible_by_css(
-        self, locator: str, timeout: int = 60, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element to be visible using CSS locator"""
-        return self.wait_for_element_to_be_visible(
-            by=By.CSS_SELECTOR,
-            locator=locator,
-            timeout=timeout,
-            poll_frequency=poll_frequency,
-        )
-
-    def wait_for_element_to_be_visible_by_id(
-        self, locator: str, timeout: int = 60, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element to be visible using ID locator"""
-        return self.wait_for_element_to_be_visible(
-            by=By.ID,
-            locator=locator,
-            timeout=timeout,
-            poll_frequency=poll_frequency,
-        )
-
-    def wait_for_element_not_to_be_visible(
-        self, by: By, locator: str, timeout: int = 5, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element NOT to be visible"""
-        if not self.wait_for_element_to_be_present(by=by, locator=locator):
-            LOGGER.info("Locator: %s was not present.", locator)
-
-        LOGGER.debug(msg=f"Waiting for locator to be visible: {locator}")
-        return WebDriverWait(
-            driver=self.driver, timeout=timeout, poll_frequency=poll_frequency
-        ).until_not(ec.visibility_of_element_located((by, locator)))
-
-    def wait_for_element_not_to_be_visible_by_css(
-        self, locator: str, timeout: int = 5, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element to be present using CSS locator"""
-        return self.wait_for_element_not_to_be_visible(
-            by=By.CSS_SELECTOR,
-            locator=locator,
-            timeout=timeout,
-            poll_frequency=poll_frequency,
-        )
-
-    def wait_for_element_not_to_be_visible_by_id(
-        self, locator: str, timeout: int = 5, poll_frequency: int = 3
-    ) -> bool:
-        """Wait for element to be present using ID locator"""
-        return self.wait_for_element_not_to_be_visible(
-            by=By.ID,
-            locator=locator,
-            timeout=timeout,
-            poll_frequency=poll_frequency,
-        )

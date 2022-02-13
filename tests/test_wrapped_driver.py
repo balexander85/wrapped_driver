@@ -24,11 +24,23 @@ def test_no_chromedriver_path():
 
 def test_driver_set_window_size(bin_path):
     """Assert something after driver.close()"""
+    expected_width = "800"
+    expected_height = "800"
     with WrappedDriver(
         executable_path=f"{bin_path}/chromedriver",
         headless=True,
-        window_size=(800, 800),
+        window_size=(expected_width, expected_height),
     ) as driver:
         driver.open(url="https://www.google.com/")
+        option_args_width, option_args_height = [
+            x.split("=")[1] for x in driver.options.arguments if "window-size" in x
+        ][0].split(",")
 
-    assert True
+    assert option_args_width == expected_width, (
+        f"Expected width {expected_width} did not match width {option_args_width} from "
+        "driver.options.arguments"
+    )
+    assert option_args_height == expected_height, (
+        f"Expected height {expected_height} did not match height {option_args_height} "
+        "from driver.options.arguments"
+    )

@@ -8,7 +8,7 @@ DEFAULT_DESKTOP_USER_AGENT = (
     "(KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36"
 )
 DEFAULT_DESKTOP_WINDOW_SIZE = "1920,1080"
-
+LOGGER_FORMAT = "%(asctime)s - %(levelname)s: %(message)s"
 MOBILE_USER_AGENT = (
     "user-agent=Mozilla/5.0 "
     "(iPhone; CPU iPhone OS 13_2_3 like Mac OS X) "
