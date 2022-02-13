@@ -16,10 +16,10 @@ from selenium.webdriver.remote.webelement import WebElement
 from constants import (
     DEFAULT_DESKTOP_USER_AGENT,
     DEFAULT_DESKTOP_WINDOW_SIZE,
+    LOGGER_FORMAT,
     MOBILE_USER_AGENT,
 )
 
-LOGGER_FORMAT = "%(asctime)s - %(levelname)s: %(message)s"
 logging.basicConfig(
     level=logging.INFO,
     format=LOGGER_FORMAT,
