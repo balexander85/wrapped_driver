@@ -1,1 +1,4 @@
-selenium==4.1.0
+selenium>=4.1.0
+pylint>=2.12.2
+pytest>=7.0.1
+setuptools==60.9.0

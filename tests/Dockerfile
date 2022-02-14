@@ -19,13 +19,15 @@
 # && cargo build --release --target armv7-unknown-linux-gnueabihf \
 # && mv /geckodriver-${geckodriver_ver}/target/armv7-unknown-linux-gnueabihf/release/geckodriver /geckodriver
 
-FROM balexander85/wrappeddriver:latest
+FROM python:buster
 #ARG test_dependencies="firefox-esr chromium-driver"
 ARG test_dependencies="chromium-driver"
+ARG virtualenv_name="wrapped-driver-env"
 LABEL maintainer="Brian A <brian@dadgumsalsa.com>"
-WORKDIR /app
+WORKDIR /test-app
 COPY base_test.py \
      conftest.py \
+     requirements.txt \
      pytest.ini \
      test_wrapped_driver.py \
      test_wrapped_driver_integration.py ./
@@ -34,8 +36,12 @@ RUN apt-get update \
  && apt-get upgrade -y \
  # Install tools for building and testing
  && apt-get install -y --no-install-recommends --no-install-suggests $test_dependencies \
+ # Create Virtual Environment
+ && python -m venv /$virtualenv_name \
+ # Activate Virtual Environment
  && . /wrapped-driver-env/bin/activate \
- && pip install pytest \
+ && /wrapped-driver-env/bin/python -m pip install --upgrade pip \
+ && /wrapped-driver-env/bin/python -m pip install -r requirements.txt \
  # Cleanup unnecessary stuff
  && apt-get purge -y --auto-remove \
                   -o APT::AutoRemove::RecommendsImportant=false \

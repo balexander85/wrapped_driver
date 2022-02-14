@@ -10,6 +10,9 @@ fi
 FILES=$(git diff --diff-filter=rd --cached --name-only -- . ':!*.yml' ':!*.json' ':!*.txt' ':!*.gitignore' ':!hooks/pre-commit' ':!*.sh' ':!Dockerfile' | sed 's| |\\ |g')
 [ -z "$FILES" ] && exit 0
 
+# Run pylint all selected files
+pylint "$(git ls-files '*.py')" || exit 1
+
 # Run black formatter all selected files
 echo "$FILES" | xargs black
 
