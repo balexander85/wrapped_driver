@@ -1,3 +1,7 @@
+"""__init__.py
+
+Hopefully this works to allow for easier install as a dependency
+"""
 # from importlib import metadata
 
 # this works, but usually people just write the name as a string here.
