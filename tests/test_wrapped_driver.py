@@ -5,7 +5,7 @@ Sort of Unit test for WrappedDriver class
 import pytest
 from selenium.common.exceptions import WebDriverException
 
-from wrappeddriver import WrappedDriver
+from wrappeddriver.wrappeddriver import WrappedDriver
 
 
 def test_empty_chromedriver_path():

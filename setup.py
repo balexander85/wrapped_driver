@@ -19,7 +19,8 @@ setup(
     name="wrappeddriver",
     version=VERSION,
     packages=find_packages(),
-    install_requires=["selenium"],
+    install_requires=["selenium>=4.1.0"],
+    python_requires=">=3.8.0",
     include_package_data=False,
     license="MIT License",
     description=DESCRIPTION,
@@ -30,7 +31,7 @@ setup(
     classifiers=[
         "Environment :: Web Environment",
         "Framework :: Selenium",
-        "Framework :: Selenium :: 3.1",
+        "Framework :: Selenium :: 4.1",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
@@ -39,5 +40,4 @@ setup(
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     ],
-    python_requires=">=3.8.0",
 )

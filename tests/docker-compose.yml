@@ -5,5 +5,5 @@ services:
     image: balexander85/wrappeddriver_test
     container_name: driver_test
     command: /wrapped-driver-env/bin/python -m pytest -vv .
-    volumes:
-     - ../wrappeddriver.py:/app/wrappeddriver.py
+    #volumes:
+    # - ../wrappeddriver.py:/app/wrappeddriver.py

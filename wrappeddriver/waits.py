@@ -10,7 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 
-from constants import LOGGER_FORMAT
+from wrappeddriver.constants import LOGGER_FORMAT
 
 logging.basicConfig(
     level=logging.INFO,

@@ -13,7 +13,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
-from constants import (
+from wrappeddriver.constants import (
     DEFAULT_DESKTOP_USER_AGENT,
     DEFAULT_DESKTOP_WINDOW_SIZE,
     LOGGER_FORMAT,
