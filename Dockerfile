@@ -1,33 +1,21 @@
 FROM python:buster
-ARG build_dependencies="build-essential libssl-dev libffi-dev"
-# need env var ERROR: Could not build wheels for cryptography
-#ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
+ARG test_dependencies="chromium-driver"
+ARG virtualenv_name="wrappeddriver-env"
 LABEL maintainer="Brian A <brian@dadgumsalsa.com>"
 WORKDIR /app
-COPY constants.py \
-     setup.py \
-     waits.py \
-     wrappeddriver.py \
-     requirements.txt \
-     README.md \
-     MANIFEST.in ./
+COPY tests/requirements.txt ./
 RUN apt-get update \
- && apt-get upgrade -y \
- # Install packages needed to build
- && apt-get install $build_dependencies -y \
- # Create python egg
- && python setup.py sdist bdist_wheel \
- # Create Virtual Environment
- && python -m venv /wrapped-driver-env \
- # Activate Virtual Environment
- && . /wrapped-driver-env/bin/activate \
- && python -m pip install --upgrade pip \
- # Installing version that can be built on RaspberryPi
-# && python -m pip install cryptography==3.1.1 \
- && python -m pip install -e . \
- # Cleanup unnecessary stuff
- && apt-get purge -y --auto-remove \
-                  -o APT::AutoRemove::RecommendsImportant=false \
-                  $build_dependencies \
- && rm -rf /var/lib/apt/lists/* \
-           /tmp/*
+  && apt-get upgrade -y \
+  # Install packages needed to build and test
+  && apt-get install $test_dependencies -y \
+  # Create Virtual Environment
+  && python -m venv /$virtualenv_name \
+  # Activate Virtual Environment
+  && . /$virtualenv_name/bin/activate \
+  && /$virtualenv_name/bin/python -m pip install --upgrade pip \
+  && /$virtualenv_name/bin/python -m pip install -r requirements.txt \
+  # Cleanup unnecessary stuff
+  && apt-get purge -y --auto-remove \
+                   -o APT::AutoRemove::RecommendsImportant=false \
+  && rm -rf /var/lib/apt/lists/* \
+            /tmp/*
