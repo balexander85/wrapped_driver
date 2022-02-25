@@ -2,18 +2,17 @@
 
 Used for packaging wrappeddriver
 """
-import os
+from pathlib import Path
 from setuptools import find_packages, setup
 
+AUTHOR = "Brian Alexander"
+AUTHOR_EMAIL = "brian@dadgumsalsa.com"
+REPO_URL = "https://github.com/balexander85/wrappeddriver"
 VERSION = "0.2.5"
 DESCRIPTION = "A simple wrapper for selenium webdriver."
-with open(
-    os.path.join(os.path.dirname(__file__), "README.md"), encoding="UTF-8"
-) as readme:
-    README = readme.read()
 
-# allow setup.py to be run from any path
-os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
+with Path(__file__).parent.joinpath("README.md").open(encoding="UTF-8") as readme:
+    README = readme.read()
 
 setup(
     name="wrappeddriver",
@@ -25,9 +24,9 @@ setup(
     license="MIT License",
     description=DESCRIPTION,
     long_description=README,
-    url="https://github.com/balexander85/wrappeddriver",
-    author="Brian Alexander",
-    author_email="brian@dadgumsalsa.com",
+    url=REPO_URL,
+    author=AUTHOR,
+    author_email=AUTHOR_EMAIL,
     classifiers=[
         "Environment :: Web Environment",
         "Framework :: Selenium",
@@ -37,7 +36,5 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.10",
-        "Topic :: Internet :: WWW/HTTP",
-        "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     ],
 )
