@@ -6,7 +6,7 @@ from platform import platform
 
 import pytest
 
-from wrappeddriver.wrappeddriver import WrappedDriver
+from wrappeddriver import WrappedDriver
 
 
 if "macOS" in platform():

@@ -5,7 +5,7 @@ How to install:
 `pip install -e git+https://github.com/balexander85/wrappeddriver.git#egg=wrappeddriver`
 
 ```$python
-from wrappeddriver.wrappeddriver import WrappedDriver
+from wrappeddriver import WrappedDriver
 
 CHROME_DRIVER_PATH = "/usr/bin/chromedriver"
 
