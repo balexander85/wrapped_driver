@@ -8,7 +8,7 @@ from setuptools import find_packages, setup
 AUTHOR = "Brian Alexander"
 AUTHOR_EMAIL = "brian@dadgumsalsa.com"
 REPO_URL = "https://github.com/balexander85/wrappeddriver"
-VERSION = "0.2.5"
+VERSION = "0.2.6"
 DESCRIPTION = "A simple wrapper for selenium webdriver."
 
 with Path(__file__).parent.joinpath("README.md").open(encoding="UTF-8") as readme:
