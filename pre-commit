@@ -2,16 +2,18 @@
 
 branch="$(git rev-parse --abbrev-ref HEAD)"
 
-if [ "$branch" = "main" ]; then
-  echo "You can't commit directly to main branch"
-  exit 1
-fi
-
 FILES=$(git diff --diff-filter=rd --cached --name-only -- . ':!*.yml' ':!*.json' ':!*.txt' ':!*.gitignore' ':!hooks/pre-commit' ':!*.sh' ':!Dockerfile' | sed 's| |\\ |g')
 [ -z "$FILES" ] && exit 0
 
+
+if [ -n "$FILES" ] && [ "$branch" = "main" ]; then
+  printf "You can't commit directly to main branch for non-trivial files \n%s" "$FILES"
+  exit 1
+fi
+
+
 # Run pylint all selected files
-pylint "$(git ls-files '*.py')" || exit 1
+pylint $(find . -name "*.py" | xargs) || exit 1
 
 # Run black formatter all selected files
 echo "$FILES" | xargs black
@@ -26,4 +28,3 @@ python -m pytest -vv tests/ || exit 1
 echo "$FILES" | xargs git add
 
 exit 0
-
