@@ -1,9 +1,0 @@
-.idea
-.github
-.gitignore
-.pytest_cache
-geckodriver.log
-CODE_OF_CONDUCT.md
-docker-compose.yml
-Dockerfile
-tests/__pycache__
