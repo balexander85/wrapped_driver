@@ -18,6 +18,8 @@ from wrappeddriver.constants import (
     DEFAULT_DESKTOP_WINDOW_SIZE,
     LOGGER_FORMAT,
     MOBILE_USER_AGENT,
+    get_chrome_options,
+    get_firefox_options,
 )
 
 logging.basicConfig(
@@ -26,26 +28,6 @@ logging.basicConfig(
     stream=stdout,
 )
 LOGGER = logging.getLogger(__name__)
-
-
-def get_chrome_options() -> webdriver.ChromeOptions:
-    """Return ChromeOptions object for chromedriver"""
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--disable-features=VizDisplayCompositor")
-    chrome_options.add_argument("--start-maximized")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--disable-gpu")
-    return chrome_options
-
-
-def get_firefox_options() -> webdriver.FirefoxOptions:
-    """Return FirefoxOptions object for geckodriver"""
-    firefox_options = webdriver.FirefoxOptions()
-    firefox_options.add_argument("--disable-features=VizDisplayCompositor")
-    firefox_options.add_argument("--start-maximized")
-    firefox_options.add_argument("--disable-dev-shm-usage")
-    firefox_options.add_argument("--disable-gpu")
-    return firefox_options
 
 
 class WrappedDriver:
