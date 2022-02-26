@@ -2,6 +2,9 @@
 
 Collection of constants used in wrappeddriver.py
 """
+from selenium import webdriver
+
+
 DEFAULT_DESKTOP_USER_AGENT = (
     "user-agent=Mozilla/5.0 "
     "(Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 "
@@ -15,3 +18,23 @@ MOBILE_USER_AGENT = (
     "AppleWebKit/605.1.15 (KHTML, like Gecko) "
     "Version/13.0.3 Mobile/15E148 Safari/604.1"
 )
+
+
+def get_chrome_options() -> webdriver.ChromeOptions:
+    """Return ChromeOptions object for chromedriver"""
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--disable-features=VizDisplayCompositor")
+    chrome_options.add_argument("--start-maximized")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
+    return chrome_options
+
+
+def get_firefox_options() -> webdriver.FirefoxOptions:
+    """Return FirefoxOptions object for geckodriver"""
+    firefox_options = webdriver.FirefoxOptions()
+    firefox_options.add_argument("--disable-features=VizDisplayCompositor")
+    firefox_options.add_argument("--start-maximized")
+    firefox_options.add_argument("--disable-dev-shm-usage")
+    firefox_options.add_argument("--disable-gpu")
+    return firefox_options
