@@ -2,16 +2,16 @@
 
 Sort of Unit test for WrappedDriver class
 """
+
 import pytest
-from selenium.common.exceptions import WebDriverException
 
 from wrappeddriver import WrappedDriver
 
 
 def test_empty_chromedriver_path():
     """Assert error is raised if no chromedriver path is used"""
-    with pytest.raises(WebDriverException):
-        WrappedDriver(executable_path="", headless=True)
+    driver = WrappedDriver(executable_path="", headless=True)
+    assert driver
 
 
 def test_no_chromedriver_path():

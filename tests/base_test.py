@@ -2,13 +2,14 @@
 
 Base test module to be utilized for browser specific test module
 """
+
 import pytest
 
 from wrappeddriver import WrappedDriver
 
 
-TEST_SITE_URL = "http://dadgumsalsa.com/"
-TEST_SITE_TITLE = "DGS | Home"
+TEST_SITE_URL = "https://dadgumsalsa.com/"
+TEST_SITE_TITLE = "Dad Gum Salsa | dadgumsalsa.com"
 
 
 class BaseTest:
